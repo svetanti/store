@@ -1,7 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import SearchForm from './SearchForm';
+import Filter from './Filter';
 import Item from './Item';
+
+const Containrer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 
 const ItemsGrid = styled.ul`
   width: 80%;
@@ -13,22 +20,24 @@ const ItemsGrid = styled.ul`
   gap: 40px;
 `;
 
-function Products(props) {
-  const { products, onSearch, onCardClick } = props;
+const Products = ({ products, productsToRender, onSearch, onCardClick, onCheck, checked }) => {
 
   return (
-    <>
+    <Containrer>
       <SearchForm onSearch={onSearch} />
+      <Filter
+        products={products}
+        onCheck={onCheck} />
       <ItemsGrid>
         {
-          products.map((item) =>
+          productsToRender.map((item) =>
             <Item
               key={item.id}
               item={item}
               onCardClick={onCardClick} />
           )}
       </ItemsGrid>
-    </>
+    </Containrer>
   )
 }
 

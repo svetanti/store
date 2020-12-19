@@ -46,8 +46,8 @@ const Category = styled.p`
   font-size: 12px;
 `;
 
-export default function Item({ item, onCardClick }) {
-  function handleClick() {
+const Item = ({ item, onCardClick }) => {
+  const handleClick = () => {
     onCardClick(item.id);
   }
 
@@ -60,4 +60,6 @@ export default function Item({ item, onCardClick }) {
       <Category>{item.category}</Category>
     </ListItem>
   )
-}
+};
+
+export default Item;

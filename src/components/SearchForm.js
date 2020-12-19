@@ -5,7 +5,7 @@ const Form = styled.form`
   display: flex;
   justify-content: space-between;
   margin: 40px auto;
-  width: 60%;
+  width: 80%;
   height: 50px;
 `;
 
@@ -22,7 +22,7 @@ const Input = styled.input`
 
 const Button = styled.button`
   width: 25%;
-  heigth: 100%;
+  height: 100%;
   border: 0;
   padding: 0;
   margin: 0;
@@ -38,9 +38,7 @@ const Button = styled.button`
   }
 `;
 
-export default function SearchForm(props) {
-  const { onSearch } = props;
-
+const SearchForm = ({ onSearch }) => {
   const [value, setValue] = useState();
 
   const handleSubmit = (evt) => {
@@ -58,4 +56,6 @@ export default function SearchForm(props) {
       <Button>Поиск</Button>
     </Form >
   )
-}
+};
+
+export default SearchForm;

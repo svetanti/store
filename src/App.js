@@ -1,19 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
+import { Switch, Route, useHistory } from 'react-router-dom';
+import CurrentProduct from './components/CurrentProduct';
 import Products from './components/Products';
 import { api } from './utils/Api';
 
-function App() {
+const App = () => {
   const [products, setProducts] = useState([]);
+  const [productsToRender, setProductsToRender] = useState([]);
   const [currentProduct, setCurrentProduct] = useState([]);
+  const [selectedProducts, setSelectedProducts] = useState([]);
+  const [allChecked, setAllChecked] = useState(true);
+  const history = useHistory();
 
   useEffect(() => {
     api.getProducts()
       .then(res => {
         setProducts(res);
+        setProductsToRender(res);
         localStorage.setItem('products', JSON.stringify(res));
       })
       .catch(err => console.log(err));
+  }, []);
+
+  useEffect(() => {
+    const selectedProduct = JSON.parse(localStorage.getItem('currentProduct'));
+    if (selectedProduct) setCurrentProduct(selectedProduct);
   }, []);
 
   const handleProductSearch = (value) => {
@@ -30,15 +41,50 @@ function App() {
             || item.description.toLowerCase().includes(searchRequest)
             || item.category.toLowerCase().includes(searchRequest);
         });
-        setProducts(result);
+        setProductsToRender(result);
       })
       .catch((err) => {
         console.log(`Ошибка при загрузке новостей: ${err}`);
       })
   };
 
-  function handleProductSelect(id) {
-    console.log(id);
+  const handleProductSelect = (id) => {
+    const selectedProduct = products.find(item => item.id === id);
+    setCurrentProduct(selectedProduct);
+    localStorage.setItem('currentProduct', JSON.stringify(selectedProduct));
+    history.push('/product');
+  }
+
+  const handleClickBack = () => {
+    history.push('/');
+  }
+
+  const handleFilterByCategory = (evt) => {
+    const selectedCategory = evt.target.name;
+    const isChecked = evt.target.checked;
+    const selected = products.filter((item) => item.category === selectedCategory);
+    if (isChecked) {
+      if (!selectedProducts.length) {
+        setSelectedProducts(selected);
+        setProductsToRender(selected);
+      }
+      else {
+        setSelectedProducts([...selected, ...selectedProducts]);
+        setProductsToRender([...selected, ...selectedProducts]);
+      }
+    }
+    else {
+      const filteredProducts = selectedProducts.filter((item) => !selected.includes(item));
+      if (JSON.stringify(selectedProducts) === JSON.stringify(selected)) {
+        console.log('Кря')
+        setSelectedProducts([]);
+        setProductsToRender(products);
+      }
+      else {
+        setSelectedProducts(filteredProducts);
+        setProductsToRender(filteredProducts);
+      }
+    }
   }
 
   return (
@@ -47,8 +93,16 @@ function App() {
         <Route exact path='/'>
           <Products
             products={products}
+            productsToRender={productsToRender}
             onSearch={handleProductSearch}
-            onCardClick={handleProductSelect} />
+            onCardClick={handleProductSelect}
+            onCheck={handleFilterByCategory} />
+        </Route>
+        <Route path='/product'>
+          <CurrentProduct
+            item={currentProduct}
+            handleClickBack={handleClickBack}
+            onCardClick={() => console.log('Клик!')} />
         </Route>
       </Switch>
     </div>
