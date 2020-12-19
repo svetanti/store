@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Checkbox from './ui/Checkbox';
+import Range from './ui/Range';
 
 const Form = styled.form`
   display: flex;
@@ -18,10 +19,12 @@ const Categories = styled.fieldset`
 `;
 
 const Filter = (props) => {
-  const { products, onCheck } = props;
+  const { products, onCheck, value, onRangeChange } = props;
 
   const categories = [...new Set(products.map(item => item.category))];
   const prices = products.map(item => item.price).sort((a, b) => a - b);
+  const min = prices[0];
+  const max = prices[prices.length - 1]
 
   return (
     <Form>
@@ -33,19 +36,11 @@ const Filter = (props) => {
             onCheck={onCheck} />
         )}
       </Categories>
-      {/*  <feildset>
-        <label>Цена
-          <input
-            type='range'
-            min={prices[0]}
-            max={prices[prices.length - 1]}></input>
-        </label>
-        <div className='range__minmax'>
-          <span>{!min ? '' : `от ${Number(min).toLocaleString()} '\u20bd'`}</span>
-          <span>{!max ? '' : `свыше ${Number(max).toLocaleString()} '\u20bd'`}</span>
-        </div>
-      </feildset> */}
-
+      <Range
+        min={min}
+        max={max}
+        value={value}
+        onChange={onRangeChange} />
     </Form>
   )
 }

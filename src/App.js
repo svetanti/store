@@ -9,7 +9,7 @@ const App = () => {
   const [productsToRender, setProductsToRender] = useState([]);
   const [currentProduct, setCurrentProduct] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([]);
-  const [allChecked, setAllChecked] = useState(true);
+  const [price, setPrice] = useState(0);
   const history = useHistory();
 
   useEffect(() => {
@@ -76,7 +76,6 @@ const App = () => {
     else {
       const filteredProducts = selectedProducts.filter((item) => !selected.includes(item));
       if (JSON.stringify(selectedProducts) === JSON.stringify(selected)) {
-        console.log('Кря')
         setSelectedProducts([]);
         setProductsToRender(products);
       }
@@ -85,6 +84,12 @@ const App = () => {
         setProductsToRender(filteredProducts);
       }
     }
+  }
+
+  const handleFilterByPrice = (evt) => {
+    const filteredPrice = evt.target.value;
+    setPrice(filteredPrice);
+    setProductsToRender(products.filter((item) => item.price <=  filteredPrice).sort((a, b) => a.price - b.price));
   }
 
   return (
@@ -96,7 +101,9 @@ const App = () => {
             productsToRender={productsToRender}
             onSearch={handleProductSearch}
             onCardClick={handleProductSelect}
-            onCheck={handleFilterByCategory} />
+            onCheck={handleFilterByCategory}
+            onRangeChange={handleFilterByPrice}
+            value={price} />
         </Route>
         <Route path='/product'>
           <CurrentProduct

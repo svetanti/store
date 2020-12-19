@@ -20,14 +20,16 @@ const ItemsGrid = styled.ul`
   gap: 40px;
 `;
 
-const Products = ({ products, productsToRender, onSearch, onCardClick, onCheck, checked }) => {
+const Products = ({ products, productsToRender, onSearch, onCardClick, onCheck, value, onRangeChange }) => {
 
   return (
     <Containrer>
       <SearchForm onSearch={onSearch} />
       <Filter
         products={products}
-        onCheck={onCheck} />
+        onCheck={onCheck}
+        value={value}
+        onRangeChange={onRangeChange} />
       <ItemsGrid>
         {
           productsToRender.map((item) =>
