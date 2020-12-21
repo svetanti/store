@@ -23,12 +23,19 @@ const ItemsGrid = styled.ul`
 const Products = ({
   products,
   productsToRender,
+  currentRow,
   onSort,
   onSearch,
   onCardClick,
   onCheck,
   value,
   onRangeChange }) => {
+
+  const productsPerRow = 6;
+
+  const productsToShow = productsToRender.slice(0, (currentRow + 1) * productsPerRow);
+
+  console.log(currentRow);
 
   return (
     <Containrer>
@@ -41,7 +48,7 @@ const Products = ({
         onRangeChange={onRangeChange} />
       <ItemsGrid>
         {
-          productsToRender.map((item) =>
+          productsToShow.map((item) =>
             <Item
               key={item.id}
               item={item}

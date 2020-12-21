@@ -20,7 +20,15 @@ const App = () => {
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [price, setPrice] = useState(0);
   const [imagePopupOpened, setImagePopupOpened] = useState(false);
+  const [isBottom, setIsBottom] = useState(false);
+  const [currentRow, setCurrentRow] = useState(0);
   const history = useHistory();
+  const scrollTop = (document.documentElement
+    && document.documentElement.scrollTop)
+    || document.body.scrollTop;
+  const scrollHeight = (document.documentElement
+    && document.documentElement.scrollHeight)
+    || document.body.scrollHeight;
 
   useEffect(() => {
     const localStorageProducts = JSON.parse(localStorage.getItem('products'));
@@ -39,9 +47,37 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    if (isBottom) {
+      addItems();
+    }
+  }, [isBottom]);
+
+  useEffect(() => {
     const selectedProduct = JSON.parse(localStorage.getItem('currentProduct'));
     if (selectedProduct) setCurrentProduct(selectedProduct);
   }, []);
+
+  const addItems = () => {
+    setCurrentRow(currentRow + 1);
+    setIsBottom(false);
+  };
+
+  const handleScroll = () => {
+    const scrollTop = (document.documentElement
+      && document.documentElement.scrollTop)
+      || document.body.scrollTop;
+    const scrollHeight = (document.documentElement
+      && document.documentElement.scrollHeight)
+      || document.body.scrollHeight;
+    if (scrollTop + window.innerHeight + 50 >= scrollHeight) {
+      setIsBottom(true);
+    }
+  }
 
   const handleProductSearch = (value) => {
     const searchRequest = value.toLowerCase();
@@ -75,14 +111,9 @@ const App = () => {
     setImagePopupOpened(true);
   }
 
-  const handleClickBack = () => {
-    history.push('/');
-  }
-
   const filterProductsByCategory = (evt) => {
-    const selectedCategory = evt.target.name;
     const isChecked = evt.target.checked;
-    const selected = products.filter((item) => item.category === selectedCategory);
+    const selected = products.filter((item) => item.category === evt.target.name);
     if (isChecked) {
       if (!selectedProducts.length) {
         setSelectedProducts(selected);
@@ -104,6 +135,10 @@ const App = () => {
         setProductsToRender(filteredProducts);
       }
     }
+  }
+
+  const handleClickBack = () => {
+    history.push('/');
   }
 
   const filterProductsByPrice = (evt) => {
@@ -129,6 +164,7 @@ const App = () => {
           <Products
             products={products}
             productsToRender={productsToRender}
+            currentRow={currentRow}
             onSort={sortProducts}
             onSearch={handleProductSearch}
             onCardClick={handleProductSelect}
