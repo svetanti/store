@@ -39,6 +39,7 @@ const Image = styled.img`
   width: 100%;
   height: 250px;
   object-fit: scale-down;
+  cursor: pointer;
 `;
 
 const Category = styled.p`
@@ -52,11 +53,14 @@ const Item = ({ item, onCardClick }) => {
   }
 
   return (
-    <ListItem onClick={handleClick}>
+    <ListItem >
       <Title>{item.title}</Title>
       <Price>&#8364; {item.price}</Price>
       <Description>{item.description}</Description>
-      <Image src={item.image} alt={item.title} />
+      <Image
+        src={item.image}
+        alt={item.title}
+        onClick={handleClick} />
       <Category>{item.category}</Category>
     </ListItem>
   )

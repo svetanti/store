@@ -20,13 +20,22 @@ const ItemsGrid = styled.ul`
   gap: 40px;
 `;
 
-const Products = ({ products, productsToRender, onSearch, onCardClick, onCheck, value, onRangeChange }) => {
+const Products = ({
+  products,
+  productsToRender,
+  onSort,
+  onSearch,
+  onCardClick,
+  onCheck,
+  value,
+  onRangeChange }) => {
 
   return (
     <Containrer>
       <SearchForm onSearch={onSearch} />
       <Filter
         products={products}
+        onSort={onSort}
         onCheck={onCheck}
         value={value}
         onRangeChange={onRangeChange} />

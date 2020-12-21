@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Checkbox from './ui/Checkbox';
 import Range from './ui/Range';
+import Sort from './ui/Sort';
 
 const Form = styled.form`
   display: flex;
@@ -19,7 +20,7 @@ const Categories = styled.fieldset`
 `;
 
 const Filter = (props) => {
-  const { products, onCheck, value, onRangeChange } = props;
+  const { products, onSort, onCheck, value, onRangeChange } = props;
 
   const categories = [...new Set(products.map(item => item.category))];
   const prices = products.map(item => item.price).sort((a, b) => a - b);
@@ -41,6 +42,8 @@ const Filter = (props) => {
         max={max}
         value={value}
         onChange={onRangeChange} />
+      <Sort
+        onSort={onSort} />
     </Form>
   )
 }

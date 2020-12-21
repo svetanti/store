@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Switch, Route, useHistory } from 'react-router-dom';
+import styled from 'styled-components';
 import CurrentProduct from './components/CurrentProduct';
 import Products from './components/Products';
+import ImagePopup from './components/ui/ImagePopup';
 import { api } from './utils/Api';
+
+const AppContainter = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: 100vh;
+`;
 
 const App = () => {
   const [products, setProducts] = useState([]);
@@ -10,9 +19,16 @@ const App = () => {
   const [currentProduct, setCurrentProduct] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [price, setPrice] = useState(0);
+  const [imagePopupOpened, setImagePopupOpened] = useState(false);
   const history = useHistory();
 
   useEffect(() => {
+    const localStorageProducts = JSON.parse(localStorage.getItem('products'));
+    if (localStorageProducts) {
+      setProducts(localStorageProducts);
+      setProductsToRender(localStorageProducts);
+      return;
+    }
     api.getProducts()
       .then(res => {
         setProducts(res);
@@ -55,11 +71,15 @@ const App = () => {
     history.push('/product');
   }
 
+  const handleProductsClick = (id) => {
+    setImagePopupOpened(true);
+  }
+
   const handleClickBack = () => {
     history.push('/');
   }
 
-  const handleFilterByCategory = (evt) => {
+  const filterProductsByCategory = (evt) => {
     const selectedCategory = evt.target.name;
     const isChecked = evt.target.checked;
     const selected = products.filter((item) => item.category === selectedCategory);
@@ -86,33 +106,48 @@ const App = () => {
     }
   }
 
-  const handleFilterByPrice = (evt) => {
+  const filterProductsByPrice = (evt) => {
     const filteredPrice = evt.target.value;
     setPrice(filteredPrice);
-    setProductsToRender(products.filter((item) => item.price <=  filteredPrice).sort((a, b) => a.price - b.price));
+    setProductsToRender(products.filter((item) => item.price <= filteredPrice).sort((a, b) => a.price - b.price));
+  }
+
+  const sortProducts = (evt) => {
+    evt.target.name === 'up'
+      ? setProductsToRender(productsToRender.map(item => item).sort((a, b) => a.price - b.price))
+      : setProductsToRender(productsToRender.map(item => item).sort((a, b) => b.price - a.price));
+  }
+
+  const closeImapePopup = () => {
+    setImagePopupOpened(false);
   }
 
   return (
-    <div>
+    <AppContainter>
       <Switch>
         <Route exact path='/'>
           <Products
             products={products}
             productsToRender={productsToRender}
+            onSort={sortProducts}
             onSearch={handleProductSearch}
             onCardClick={handleProductSelect}
-            onCheck={handleFilterByCategory}
-            onRangeChange={handleFilterByPrice}
+            onCheck={filterProductsByCategory}
+            onRangeChange={filterProductsByPrice}
             value={price} />
         </Route>
         <Route path='/product'>
           <CurrentProduct
             item={currentProduct}
             handleClickBack={handleClickBack}
-            onCardClick={() => console.log('Клик!')} />
+            onCardClick={handleProductsClick} />
+          <ImagePopup
+            url={currentProduct.image}
+            isOpened={imagePopupOpened}
+            onClose={closeImapePopup} />
         </Route>
       </Switch>
-    </div>
+    </AppContainter>
   );
 }
 
