@@ -16,8 +16,12 @@ const ItemsGrid = styled.ul`
   padding: 0;
   margin: 40px auto;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(288px, 1fr));
   gap: 40px;
+
+  @media (max-width: 680px) {
+    width: 90%;
+  }
 `;
 
 const Products = ({ productsToRender, currentRow, onCardClick }) => {

@@ -7,6 +7,10 @@ const Container = styled.div`
   width: 50%;
   height: 40px;
   margin: 20px auto;
+
+  @media (max-width: 680px) {
+    width: 100%;
+  }
 `;
 
 const Button = styled.button`

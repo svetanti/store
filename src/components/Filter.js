@@ -18,6 +18,11 @@ const Categories = styled.fieldset`
   border: none;
   padding: 0;
   margin: 0;
+
+  @media (max-width: 680px) {
+    flex-direction: column;
+    gap: 10px;
+  } 
 `;
 
 const Filter = () => {
