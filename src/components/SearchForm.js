@@ -45,11 +45,7 @@ const SearchForm = () => {
   const handleSearch = (evt) => {
     evt.preventDefault()
     onSearch(keyword);
-  }
-
-  const handleChange = (evt) => {
-    onFieldChange(evt);
-  }
+  };
 
   return (
     <Form
@@ -57,7 +53,7 @@ const SearchForm = () => {
       noValidate>
       <Input
         value={keyword || ''}
-        onChange={handleChange} />
+        onChange={onFieldChange} />
       <Button>Поиск</Button>
     </Form >
   )

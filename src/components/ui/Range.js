@@ -46,7 +46,7 @@ const Range = ({ min, max, value, onChange }) => {
 
   const handleChange = (evt) => {
     onChange(evt);
-  }
+  };
 
   return (
     <>

@@ -20,11 +20,7 @@ const ItemsGrid = styled.ul`
   gap: 40px;
 `;
 
-const Products = ({
-  productsToRender,
-  currentRow,
-  onCardClick }) => {
-
+const Products = ({ productsToRender, currentRow, onCardClick }) => {
   const productsPerRow = 3;
   const productsToShow = productsToRender.slice(0, (currentRow + 1) * productsPerRow);
 

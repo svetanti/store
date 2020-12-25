@@ -23,13 +23,11 @@ const Image = styled.img`
 
 const ImagePopup = ({ url, isOpened, onClose }) => {
   return (<>
-    {
-      isOpened &&
+    {isOpened &&
       (<Overlay onClick={onClose}>
         <Image src={url} />
-      </Overlay>)
-    }
+      </Overlay>)}
   </>)
-}
+};
 
 export default ImagePopup;

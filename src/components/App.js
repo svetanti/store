@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Switch, Route, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import CurrentProduct from './components/CurrentProduct';
-import Products from './components/Products';
-import ImagePopup from './components/ui/ImagePopup';
-import { api } from './utils/Api';
-import { SearchContext } from './contexts/SearchContext';
-import { FilterContext } from './contexts/FilterContext';
+import CurrentProduct from './CurrentProduct';
+import Products from './Products';
+import ImagePopup from './ui/ImagePopup';
+import { api } from '../utils/Api';
+import { SearchContext } from '../contexts/SearchContext';
+import { FilterContext } from '../contexts/FilterContext';
 
 const AppContainter = styled.div`
   display: flex;

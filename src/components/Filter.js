@@ -24,7 +24,7 @@ const Filter = () => {
   const { products, categories, onSort, onCheck, price, onRangeChange } = useContext(FilterContext);
   const prices = products.map(item => item.price).sort((a, b) => a - b);
   const min = prices[0];
-  const max = prices[prices.length - 1]
+  const max = prices[prices.length - 1];
 
   return (
     <Form>
@@ -45,6 +45,6 @@ const Filter = () => {
         onSort={onSort} />
     </Form>
   )
-}
+};
 
 export default Filter;

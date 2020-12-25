@@ -36,6 +36,6 @@ const CurrentProduct = ({ item, handleClickBack, onCardClick }) => {
       <Button onClick={handleClickBack}>Назад</Button>
     </StyledProductCard>
   )
-}
+};
 
 export default CurrentProduct;

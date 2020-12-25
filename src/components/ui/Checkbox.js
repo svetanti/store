@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import imgPath from '../images/checked_icon.svg';
 
@@ -49,6 +49,6 @@ const Checkbox = ({ value, onCheck }) => {
         name={value} />
     </Label>
   )
-}
+};
 
 export default Checkbox;
