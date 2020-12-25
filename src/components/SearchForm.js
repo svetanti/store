@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
+import { SearchContext } from '../contexts/SearchContext';
 import styled from 'styled-components';
 
 const Form = styled.form`
@@ -38,21 +39,25 @@ const Button = styled.button`
   }
 `;
 
-const SearchForm = ({ onSearch }) => {
-  const [value, setValue] = useState();
+const SearchForm = () => {
+  const { keyword, onSearch, onFieldChange } = useContext(SearchContext);
 
-  const handleSubmit = (evt) => {
+  const handleSearch = (evt) => {
     evt.preventDefault()
-    onSearch(value);
+    onSearch(keyword);
+  }
+
+  const handleChange = (evt) => {
+    onFieldChange(evt);
   }
 
   return (
     <Form
-      onSubmit={handleSubmit}
+      onSubmit={handleSearch}
       noValidate>
       <Input
-        value={value || ''}
-        onChange={(evt) => setValue(evt.target.value)} />
+        value={keyword || ''}
+        onChange={handleChange} />
       <Button>Поиск</Button>
     </Form >
   )

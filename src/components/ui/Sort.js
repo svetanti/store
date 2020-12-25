@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -46,6 +46,6 @@ const Sort = ({ onSort }) => {
         From high to low {'\u25bc'}</Button>
     </Container>
   )
-}
+};
 
 export default Sort;

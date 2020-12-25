@@ -14,49 +14,33 @@ const ItemsGrid = styled.ul`
   width: 80%;
   list-style: none;
   padding: 0;
-  margin: auto;
+  margin: 40px auto;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 40px;
 `;
 
 const Products = ({
-  products,
   productsToRender,
   currentRow,
-  onSort,
-  onSearch,
-  onCardClick,
-  onCheck,
-  value,
-  onRangeChange }) => {
+  onCardClick }) => {
 
-  const productsPerRow = 6;
-
+  const productsPerRow = 3;
   const productsToShow = productsToRender.slice(0, (currentRow + 1) * productsPerRow);
-
-  console.log(currentRow);
 
   return (
     <Containrer>
-      <SearchForm onSearch={onSearch} />
-      <Filter
-        products={products}
-        onSort={onSort}
-        onCheck={onCheck}
-        value={value}
-        onRangeChange={onRangeChange} />
+      <SearchForm />
+      <Filter />
       <ItemsGrid>
-        {
-          productsToShow.map((item) =>
-            <Item
-              key={item.id}
-              item={item}
-              onCardClick={onCardClick} />
-          )}
+        {productsToShow.map((item) =>
+          <Item
+            key={item.id}
+            item={item}
+            onCardClick={onCardClick} />)}
       </ItemsGrid>
     </Containrer>
   )
-}
+};
 
 export default Products;
